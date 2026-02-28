@@ -1,0 +1,127 @@
+.filtersBar {
+  padding: 24px;
+  background: var(--color-white);
+  border-radius: 24px;
+  border: 1px solid #e8e8e8;
+  display: flex;
+  flex-direction: column;
+  max-width: 360px;
+  min-width: 360px;
+}
+
+.filtersBar__content {
+  position: relative;
+  display: flex;
+  gap: 24px;
+
+  flex-direction: column;
+}
+
+.filtersBar-closeBtn {
+  display: none;
+  width: 20px;
+  height: 20px;
+  align-self: flex-end;
+  margin-block-end: 8px;
+}
+
+.search__container {
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: 48px;
+}
+
+.search__input {
+  width: 100%;
+  height: 100%;
+  border-radius: 68px;
+  padding-inline-start: 52px;
+  border: 1px solid #e8e8e8;
+  box-sizing: border-box; /* Важно для правильного учета padding */
+}
+
+.search__icon {
+  width: 18px;
+  height: 18px;
+  opacity: 0.5;
+  transition: opacity 0.2s;
+  position: absolute;
+  top: 30%;
+  left: 25px;
+  z-index: 1;
+}
+
+.search__input::placeholder {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 130%;
+}
+
+.filters__items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.filters__items-title {
+  display: block;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 120%;
+  letter-spacing: 0%;
+  text-align: left;
+}
+
+.filters__items-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.filters__item {
+  display: inline-block;
+  border: 1px solid #bababa;
+  border-radius: 12px;
+  padding: 12px;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 120%;
+}
+
+.filters__item.active {
+  border-color: var(--color-primary, #007bff);
+}
+
+.filters__item:hover {
+  background-color: var(--color-primary, #007bff);
+  color: white;
+  border-color: var(--color-primary, #007bff);
+}
+.filters__toggle {
+  color: #5509cc;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 100%;
+  text-align: left;
+  text-decoration: underline;
+}
+
+@media (max-width: 1030px) {
+  .filtersBar {
+    position: absolute;
+    right: 0;
+    transition: left 0.3s ease;
+    border-radius: 0;
+    display: none;
+  }
+
+  .filtersBar.open {
+    display: flex;
+  }
+
+  .filtersBar-closeBtn {
+    display: block;
+  }
+}
