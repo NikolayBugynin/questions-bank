@@ -1,138 +1,69 @@
 import { useState } from 'react';
-import type { Skill } from '../../api/skills';
-import bulletImg from '../../assets/images/bullet.svg';
-import expBtn from '../../assets/images/expand-button.svg';
-import filterBtn from '../../assets/images/filter-btn.svg';
-import itImg from '../../assets/images/it-pic.png';
+import { fetchQuestionsFromAPI } from '../../api/questions';
+import { FiltersBar } from '../../components/FiltersBar/FiltersBar';
+import { QuestionsList } from '../../components/QuestionsList/QuestionsList';
 import { Pagination } from '../../features/Pagination/Pagination';
-import { useQuestions } from '../../hooks/useQuestions';
-import type { Specialization } from '../../hooks/useSpecializations';
+import { useDebounce } from '../../helpers/hooks/useDebounce';
+import { useFetch } from '../../helpers/hooks/useFetch';
+import type { FiltersState } from '../../interfaces';
 import './Main.css';
 
-interface MainProps {
-  searchValueByTitle: string;
-  selectedSpecialization: Specialization | null;
-  setCurrentPage: (page: number) => void;
-  currentPage: number;
-  selectedSkill: Skill | null;
-  selectedComplexity: number[];
-  selectedRate: number[];
-  setIsOpenFilterBar: React.Dispatch<React.SetStateAction<boolean>>;
-}
+export const Main = () => {
+  const [filters, setFilters] = useState<FiltersState>({
+    selectedSpecialization: null,
+    selectedSkill: null,
+    selectedComplexity: [],
+    selectedRate: [],
+    searchValueByTitle: '',
+  });
 
-export const Main = ({
-  searchValueByTitle,
-  selectedSpecialization,
-  setCurrentPage,
-  currentPage,
-  selectedSkill,
-  selectedComplexity,
-  selectedRate,
-  setIsOpenFilterBar,
-}: MainProps) => {
-  const [openQuestionId, setOpenQuestionId] = useState<number | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const toggleQuestion = (questionId: number) => {
-    setOpenQuestionId((prev) => (prev === questionId ? null : questionId));
+  const [isOpenFilterBar, setIsOpenFilterBar] = useState(false);
+
+  const skillIds = filters.selectedSkill ? [filters.selectedSkill.id] : [];
+
+  const debouncedSearchText = useDebounce(filters.searchValueByTitle, 1500);
+
+  const { data, isLoading } = useFetch(fetchQuestionsFromAPI, {
+    page: currentPage,
+    searchByTitle: debouncedSearchText,
+    specializationId: filters.selectedSpecialization?.id,
+    skillIds: skillIds,
+    complexity: filters.selectedComplexity,
+    rate: filters.selectedRate,
+  });
+
+  const updateFilters = (updates: Partial<FiltersState>) => {
+    setFilters((prev) => ({ ...prev, ...updates }));
+    setCurrentPage(1); // Сброс страницы при изменении фильтров
   };
 
-  const skillIds = selectedSkill ? [selectedSkill.id] : [];
-
-  const { questionData, loading } = useQuestions(
-    currentPage,
-    searchValueByTitle,
-    selectedSpecialization?.id,
-    skillIds,
-    selectedComplexity,
-    selectedRate,
-  );
-
-  // console.log('---questionData', questionData);
-
-  if (loading) return <div className='loader'>Загрузка...</div>;
-
-  const filteredQuestions = questionData.data;
+  const filteredQuestions = data?.data;
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
 
-  const totalPages = Math.ceil(questionData.total / questionData.limit);
+  if (isLoading) return <div className='loader'>Загрузка...</div>;
+
+  const totalPages = Math.ceil((data?.total ?? 0) / (data?.limit ?? 1));
 
   return (
-    <div className='questions__content'>
-      <div className='questions__title-container'>
-        <h2 className='questions__title'>
-          Вопросы {selectedSpecialization?.title}
-        </h2>
-        <button
-          onClick={() => setIsOpenFilterBar(true)}
-          className='questions__title-filterBtn'
-        >
-          <img src={filterBtn} alt='Кнопка для открытия фильтра вопросов' />
-        </button>
+    <div className='main'>
+      <div className='main-content'>
+        <QuestionsList
+          filteredQuestions={filteredQuestions}
+          selectedSpecialization={filters.selectedSpecialization}
+          setIsOpenFilterBar={setIsOpenFilterBar}
+        />
+        <FiltersBar
+          filters={filters}
+          updateFilters={updateFilters}
+          isOpenFilterBar={isOpenFilterBar}
+          setIsOpenFilterBar={setIsOpenFilterBar}
+        />
       </div>
-
-      <div className='questions__list'>
-        {filteredQuestions.map((question) => {
-          const isOpen = openQuestionId === question.id;
-          return (
-            <div
-              key={question.id}
-              className='questions__item'
-              onClick={() => toggleQuestion(question.id)}
-            >
-              <div className='questions__item-header'>
-                <div className='questions__item-header-container'>
-                  <img
-                    className='questions__item-bullet'
-                    src={bulletImg}
-                    alt='Точка радям с заголовком'
-                  />
-                  <h3 className='questions__item-title'>{question.title}</h3>
-                </div>
-                <button className='expand-btn'>
-                  <span className={`arrow ${isOpen ? 'arrow--open' : ''}`}>
-                    <img src={expBtn} alt='expBtn' />
-                  </span>
-                </button>
-              </div>
-
-              {isOpen && (
-                <div className='questions__item-expand-container'>
-                  <div className='questions__item-meta'>
-                    <div className='questions__item-stat'>
-                      <span className='questions__item-stat-label'>
-                        Рейтинг:
-                      </span>
-                      <span className='questions__item-stat-value'>
-                        {question.rate}
-                      </span>
-                    </div>
-                    <div className='questions__item-stat'>
-                      <span className='questions__item-stat-label'>
-                        Сложность:
-                      </span>
-                      <span className='questions__item-stat-value'>
-                        {question.complexity}
-                      </span>
-                    </div>
-                  </div>
-                  <img
-                    className='questions__item-image'
-                    src={itImg}
-                    alt='скрин кода'
-                  />
-                  <p className='questions__item-description'>
-                    {question.description}
-                  </p>
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
-
       <Pagination
         totalPages={totalPages}
         onPageChange={handlePageChange}

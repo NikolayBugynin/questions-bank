@@ -3,7 +3,7 @@ import goToPrevBtn from '../../assets/images/left-btn.svg';
 import goToNextBtn from '../../assets/images/right-btn.svg';
 import './Pagination.css';
 
-export interface PaginationProps {
+interface Props {
   totalPages: number;
   onPageChange: (page: number) => void;
   initialPage: number;
@@ -13,7 +13,7 @@ export const Pagination = ({
   totalPages,
   onPageChange,
   initialPage,
-}: PaginationProps) => {
+}: Props) => {
   const [currentPage, setCurrentPage] = useState(initialPage);
 
   useEffect(() => {

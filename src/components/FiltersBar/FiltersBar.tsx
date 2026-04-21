@@ -1,54 +1,52 @@
 import { useState } from 'react';
-import type { Skill } from '../../api/skills';
+import { fetchSkillsFromAPI } from '../../api/skills';
+import { fetchSpecializationsFromAPI } from '../../api/specializations';
 import closeBtn from '../../assets/images/close_btn.svg';
 import searchIcon from '../../assets/images/search-icon.svg';
-import { useSkills } from '../../hooks/useSkills';
-import {
-  useSpecializations,
-  type Specialization,
-} from '../../hooks/useSpecializations';
+import { useFetch } from '../../helpers/hooks/useFetch';
+import type { FiltersState, Skill, Specialization } from '../../interfaces';
 import './FiltersBar.css';
 
-interface FiltersBarProps {
-  searchValueByTitle: string;
-  setSelectedSpecialization: React.Dispatch<
-    React.SetStateAction<Specialization | null>
-  >;
-  setSelectedSkill: React.Dispatch<React.SetStateAction<Skill | null>>;
-  selectedSpecialization: Specialization | null;
-  selectedSkill: Skill | null;
-  selectedComplexity: number[];
-  handleSearchChange: (value: string) => void;
-  setSelectedComplexity: React.Dispatch<React.SetStateAction<number[]>>;
-  selectedRate: number[];
-  setSelectedRate: React.Dispatch<React.SetStateAction<number[]>>;
+interface Props {
+  filters: FiltersState;
+  updateFilters: (updates: Partial<FiltersState>) => void;
   isOpenFilterBar: boolean;
-  setIsOpenFilterBar: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsOpenFilterBar: (value: boolean) => void;
 }
-
 export const FiltersBar = ({
-  searchValueByTitle,
-  handleSearchChange,
-  setSelectedSpecialization,
-  selectedSpecialization,
-  selectedSkill,
-  setSelectedSkill,
-  setSelectedComplexity,
-  selectedComplexity,
-  selectedRate,
-  setSelectedRate,
+  filters,
+  updateFilters,
   isOpenFilterBar,
   setIsOpenFilterBar,
-}: FiltersBarProps) => {
-  //SpecializationsData
+}: Props) => {
   const [showAllSpecializations, setShowallSpecializations] = useState(false);
+  const [showAllSkills, setShowallSkills] = useState(false);
 
-  const { specializations } = useSpecializations();
+  const { data: specializationsData } = useFetch(fetchSpecializationsFromAPI);
+
+  const specializations = specializationsData ?? [];
+
+  const specializationIds = filters.selectedSpecialization
+    ? [filters.selectedSpecialization.id]
+    : [];
+
+  const { data: skillsResponse } = useFetch(fetchSkillsFromAPI, {
+    specializationIds,
+  });
+
+  const skills = skillsResponse?.data ?? [];
+
+  const handleSearchChange = (value: string) => {
+    updateFilters({ searchValueByTitle: value });
+  };
 
   const toggleSpecialization = (specialization: Specialization) => {
-    setSelectedSpecialization((prev) =>
-      prev?.id === specialization.id ? null : specialization,
-    );
+    updateFilters({
+      selectedSpecialization:
+        filters.selectedSpecialization?.id === specialization.id
+          ? null
+          : specialization,
+    });
   };
 
   const visibleSpecializations = showAllSpecializations
@@ -57,56 +55,34 @@ export const FiltersBar = ({
 
   const hasMoreSpecializations = specializations.length > 5;
 
-  const specializationIds = selectedSpecialization
-    ? [selectedSpecialization.id]
-    : [];
-
-  //SkillsData
-  const [showAllSkills, setShowallSkills] = useState(false);
-
-  const { skills } = useSkills(specializationIds);
-
-  // console.log('spec for skills', selectedSpecialization);
-
-  // console.log('-skills', skills);
-
   const toggleSkill = (skill: Skill) => {
-    setSelectedSkill((prev) => (prev?.id === skill.id ? null : skill));
+    updateFilters({
+      selectedSkill: filters.selectedSkill?.id === skill.id ? null : skill,
+    });
   };
 
-  const visibleSkills = showAllSkills ? skills : skills.slice(0, 8);
+  const visibleSkills = showAllSkills ? skills : skills?.slice(0, 8);
 
-  const hasMoreSkills = skills.length > 8;
+  const hasMoreSkills = skills?.length > 8;
 
   const toggleComplexity = (rangeValues: number[]) => {
-    setSelectedComplexity((prev: number[]) => {
-      // Проверяем, все ли числа из диапазона уже выбраны
-      const allSelected = rangeValues.every((num) => prev.includes(num));
+    const prev = filters.selectedComplexity;
+    const allSelected = rangeValues.every((num) => prev.includes(num));
 
-      if (allSelected) {
-        // Если выбраны - удаляем
-        return prev.filter((num) => !rangeValues.includes(num));
-      } else {
-        // Если не все - добавляем недостающие
-        const newSelection = [...prev];
-        rangeValues.forEach((num) => {
-          if (!newSelection.includes(num)) {
-            newSelection.push(num);
-          }
-        });
-        return newSelection.sort((a, b) => a - b);
-      }
-    });
+    const newComplexity = allSelected
+      ? prev.filter((num) => !rangeValues.includes(num))
+      : [...new Set([...prev, ...rangeValues])].sort((a, b) => a - b);
+
+    updateFilters({ selectedComplexity: newComplexity });
   };
 
   const toggleRate = (rateValue: number) => {
-    setSelectedRate((prev: number[]) => {
-      if (prev.includes(rateValue)) {
-        return prev.filter((item) => item !== rateValue);
-      } else {
-        return [...prev, rateValue].sort((a, b) => a - b);
-      }
-    });
+    const prev = filters.selectedRate;
+    const newRate = prev.includes(rateValue)
+      ? prev.filter((item) => item !== rateValue)
+      : [...prev, rateValue].sort((a, b) => a - b);
+
+    updateFilters({ selectedRate: newRate });
   };
 
   const complexityMap: Record<string, number[]> = {
@@ -131,7 +107,7 @@ export const FiltersBar = ({
             type='text'
             className='search__input'
             placeholder='Введите запрос…'
-            value={searchValueByTitle}
+            value={filters.searchValueByTitle}
             onChange={(e) => handleSearchChange(e.target.value)}
           />
         </div>
@@ -141,7 +117,7 @@ export const FiltersBar = ({
             {visibleSpecializations.map((specialization) => (
               <button
                 key={specialization.id}
-                className={`filters__item ${selectedSpecialization?.id === specialization?.id ? 'active' : ''}`}
+                className={`filters__item ${filters.selectedSpecialization?.id === specialization?.id ? 'active' : ''}`}
                 onClick={() => toggleSpecialization(specialization)}
               >
                 {specialization.title}
@@ -164,7 +140,7 @@ export const FiltersBar = ({
             {visibleSkills.map((skill) => (
               <button
                 key={skill.id}
-                className={`filters__item ${selectedSkill?.id === skill?.id ? 'active' : ''}`}
+                className={`filters__item ${filters.selectedSkill?.id === skill?.id ? 'active' : ''}`}
                 onClick={() => toggleSkill(skill)}
               >
                 {skill.title}
@@ -186,7 +162,7 @@ export const FiltersBar = ({
           <ul className='filters__items-list'>
             {Object.entries(complexityMap).map(([range, complexity]) => {
               const isActive = complexity.every((num) =>
-                selectedComplexity.includes(num),
+                filters.selectedComplexity.includes(num),
               );
 
               return (
@@ -205,7 +181,7 @@ export const FiltersBar = ({
           <h4 className='filters__items-title'>Рейтинг</h4>
           <ul className='filters__items-list'>
             {[1, 2, 3, 4, 5].map((rate) => {
-              const isActive = selectedRate.includes(rate);
+              const isActive = filters.selectedRate.includes(rate);
               return (
                 <button
                   key={rate}
