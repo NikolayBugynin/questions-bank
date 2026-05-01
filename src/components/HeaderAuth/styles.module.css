@@ -1,0 +1,77 @@
+.auth {
+  position: relative;
+}
+
+.authContainer {
+  display: flex;
+  gap: 16px;
+}
+
+.authBurger {
+  display: none;
+  width: 32px;
+  height: 32px;
+}
+
+.loginBtn {
+  width: 100%;
+  border: none;
+  color: var(--color-primary);
+  font-weight: 500;
+  font-size: 16px;
+  text-align: left;
+  background-color: transparent;
+  align-self: center;
+}
+
+.registerBtn {
+  width: 100%;
+  border: none;
+  border-radius: 12px;
+  padding: 11px 28px;
+  color: var(--color-white);
+  font-weight: 500;
+  font-size: 18px;
+  background-color: var(--color-primary);
+  align-self: center;
+}
+
+@media (max-width: 1200px) {
+  .authContainer {
+    display: none;
+  }
+
+  .authContainerOpen {
+    position: absolute;
+    top: 50px;
+    right: 0px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 6px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    background: var(--color-white);
+    transition: transform 0.3s ease;
+  }
+
+  .authBurger {
+    display: flex;
+  }
+
+  .registerBtn,
+  .loginBtn {
+    border-radius: 12px;
+    padding: 6px 10px;
+    color: black;
+    font-size: inherit;
+    background: var(--color-white);
+    transition: background-color 0.2s ease;
+  }
+}
+
+.loginBtn:hover,
+.registerBtn:hover {
+  color: var(--color-primary);
+  background-color: var(--color-bg);
+}

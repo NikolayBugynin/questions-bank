@@ -1,0 +1,52 @@
+.header {
+  background: var(--color-white);
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 15px 112px;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 140%;
+}
+
+.headerLogo {
+  width: 100%;
+  height: 33px;
+}
+
+.left {
+  display: flex;
+  gap: 42px;
+}
+
+@media (max-width: 1200px) {
+  .content {
+    padding-inline-start: 30px;
+    padding-inline-end: 30px;
+  }
+
+  .left {
+    gap: 32px;
+  }
+}
+
+.loginBtn:hover,
+.register:hover {
+  color: var(--color-primary);
+  background-color: var(--color-bg);
+}
+
+@media (max-width: 760px) {
+  .content {
+    padding: 10px;
+  }
+
+  .left {
+    gap: 10px;
+  }
+}

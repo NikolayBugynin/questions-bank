@@ -35,3 +35,5 @@ export interface FiltersState {
   selectedRate: number[];
   searchValueByTitle: string;
 }
+
+export type Status = 'Изученные' | 'Не изученные' | 'Все';

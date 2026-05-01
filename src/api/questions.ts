@@ -5,7 +5,7 @@ const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 interface ParamsType {
   page?: number;
-  searchByTitle?: string;
+  titleOrDescription?: string;
   specializationId?: number;
   skillIds?: number[];
   complexity?: number[];
@@ -19,7 +19,7 @@ export const fetchQuestionsFromAPI = async (
   try {
     const {
       page = 1,
-      searchByTitle = '',
+      titleOrDescription = '',
       specializationId,
       skillIds = [],
       complexity = [],
@@ -31,7 +31,7 @@ export const fetchQuestionsFromAPI = async (
     const response = await axios.get(url, {
       params: {
         page,
-        searchByTitle,
+        titleOrDescription,
         specializationId,
         skillIds,
         complexity,

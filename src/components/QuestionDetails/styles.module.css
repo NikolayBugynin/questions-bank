@@ -1,0 +1,42 @@
+.expandContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.itemMeta {
+  display: flex;
+  gap: 40px;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 120%;
+}
+
+.stat {
+  display: flex;
+  gap: 12px;
+  border-radius: 8px;
+  padding: 8px 10px;
+  background-color: var(--color-bg);
+}
+
+.value {
+  padding: 2px 4px;
+  color: var(--color-white);
+  background-color: var(--color-primary);
+}
+
+.itemImage {
+  display: block; /* Убираем лишние отступы снизу (inline-элементы дают отступ) */
+  width: 100%; /* Растягиваем на всю ширину родителя */
+  height: auto; /* Высота подстраивается пропорционально */
+  object-fit: cover; /* Картинка заполнит контейнер, сохраняя пропорции */
+  object-position: center;
+}
+
+.itemDescription {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 140%;
+  text-align: left;
+}

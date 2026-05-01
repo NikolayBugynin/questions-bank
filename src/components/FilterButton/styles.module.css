@@ -1,0 +1,28 @@
+.item {
+  display: inline-block;
+  border: 1px solid #bababa;
+  border-radius: 12px;
+  padding: 12px;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 120%;
+}
+
+.item.active {
+  border-color: var(--color-primary, #007bff);
+}
+
+.item:hover {
+  background-color: var(--color-primary, #007bff);
+  color: white;
+  border-color: var(--color-primary, #007bff);
+}
+
+.toggle {
+  color: #5509cc;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 100%;
+  text-align: left;
+  text-decoration: underline;
+}
