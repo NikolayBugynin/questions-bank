@@ -1,0 +1,31 @@
+.search {
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: 48px;
+}
+
+.icon {
+  width: 18px;
+  height: 18px;
+  opacity: 0.5;
+  transition: opacity 0.2s;
+  position: absolute;
+  top: 30%;
+  left: 25px;
+  z-index: 1;
+}
+
+.input {
+  width: 100%;
+  height: 100%;
+  border-radius: 68px;
+  padding-inline-start: 52px;
+  border: 1px solid #e8e8e8;
+}
+
+.input::placeholder {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 130%;
+}

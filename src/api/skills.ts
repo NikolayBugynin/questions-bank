@@ -1,33 +1,26 @@
 import axios from 'axios';
+import type { SkillsData } from '../interfaces';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL;
 
-export interface Skill {
-  id: number;
-  title: string;
-}
-
-export interface SkillsResponse {
-  data: Skill[];
+interface ParamsType {
+  specializationIds?: number[];
 }
 
 export const fetchSkillsFromAPI = async (
-  specializationIds: number[] = [],
-): Promise<SkillsResponse> => {
+  params?: ParamsType,
+): Promise<SkillsData> => {
   try {
-    const params = new URLSearchParams();
-
-    params.append('limit', '100');
-
-    if (specializationIds.length > 0) {
-      params.append('specializations', specializationIds.join(','));
-      // [1, 2, 3] -> "1,2,3"
-    }
+    const { specializationIds = [] } = params || {};
 
     const url = `${API_BASE_URL}/skills`;
     // console.log('🔍 Полный URL:', `${url}?${params}`);
 
-    const response = await axios.get(url, { params });
+    const response = await axios.get(url, {
+      params: {
+        specializationIds,
+      },
+    });
 
     return response.data;
   } catch (error) {

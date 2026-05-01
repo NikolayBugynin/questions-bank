@@ -1,0 +1,20 @@
+.bottom {
+  display: flex;
+  justify-content: space-between;
+  padding-block-start: 19px;
+}
+
+@media (max-width: 610px) {
+  .bottom {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    grid-template-rows: auto auto;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 1250px) {
+  .bottom {
+    font-size: 12px;
+  }
+}

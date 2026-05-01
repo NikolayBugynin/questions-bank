@@ -1,0 +1,20 @@
+.footer {
+  border-radius: 20px 20px 0 0;
+  background: #18003e;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 30px 112px 22px;
+  color: #8c8c8c;
+}
+
+@media (max-width: 1250px) {
+  .footer {
+    padding: 30px 30px 18px;
+  }
+}
+
+@media (max-width: 760px) {
+  .footer {
+    padding: 30px 10px 16px;
+  }
+}
