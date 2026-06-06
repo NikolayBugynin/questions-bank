@@ -7,10 +7,11 @@ interface ParamsType {
   page?: number;
   titleOrDescription?: string;
   specializationId?: number;
-  skillIds?: number[];
+  skills?: number[];
   complexity?: number[];
   rate?: number[];
   specializationIds?: number[];
+  keywords?: string[];
 }
 
 export const fetchQuestionsFromAPI = async (
@@ -21,9 +22,10 @@ export const fetchQuestionsFromAPI = async (
       page = 1,
       titleOrDescription = '',
       specializationId,
-      skillIds = [],
+      skills = [],
       complexity = [],
       rate = [],
+      keywords = [],
     } = params || {};
 
     const url = `${API_BASE_URL}/questions/public-questions`;
@@ -33,9 +35,10 @@ export const fetchQuestionsFromAPI = async (
         page,
         titleOrDescription,
         specializationId,
-        skillIds,
+        skills,
         complexity,
         rate,
+        keywords,
       },
     });
 

@@ -5,6 +5,7 @@ import styles from './styles.module.css';
 
 export const HeaderMenu = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(true);
+  
   return (
     <nav className={styles.menu}>
       <div className={styles.menuBtnContainer}>

@@ -1,8 +1,8 @@
 import styles from './styles.module.css';
 
 interface Props {
-  active: boolean;
-  onClick: () => void;
+  active?: boolean;
+  onClick?: () => void;
   children: React.ReactNode;
 }
 

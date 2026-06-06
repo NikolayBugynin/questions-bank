@@ -24,7 +24,7 @@
   margin-block-end: 8px;
 }
 
-/* @media (max-width: 1030px) {
+@media (max-width: 1030px) {
   .filtersBar {
     position: absolute;
     right: 0;
@@ -40,4 +40,4 @@
   .closeBtn {
     display: block;
   }
-} */
+}

@@ -1,31 +1,20 @@
-.filtersBar {
+.sideBar {
   padding: 24px;
   background: var(--color-white);
   border-radius: 24px;
   border: 1px solid #e8e8e8;
   display: flex;
   flex-direction: column;
+  gap: 24px;
   max-width: 360px;
   min-width: 360px;
+
+  height: fit-content;
 }
 
-.content {
-  position: relative;
-  display: flex;
-  gap: 24px;
-  flex-direction: column;
-}
 
-.closeBtn {
-  display: none;
-  width: 20px;
-  height: 20px;
-  justify-self: flex-end;
-  margin-block-end: 8px;
-}
-
-/* @media (max-width: 1030px) {
-  .filtersBar {
+@media (max-width: 1030px) {
+  .sideBar {
     position: absolute;
     right: 0;
     transition: transform 0.3s ease;
@@ -33,11 +22,11 @@
     display: none;
   }
 
-  .filtersBar.open {
+  .sideBar.open {
     display: flex;
   }
 
   .closeBtn {
     display: block;
   }
-} */
+}

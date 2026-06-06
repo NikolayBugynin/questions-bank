@@ -3,7 +3,6 @@ import type { FiltersState } from '../../interfaces';
 import { ComplexityFilters } from '../ComplexityFilters/ComplexityFilters';
 import { RateFilters } from '../RateFilters/RateFilters';
 import { SearchInput } from '../SearchInput/SearchInput';
-import { SideBarWrapper } from '../SideBarWrapper/SideBar';
 import { SkillFilters } from '../SkillFilters/SkillFilters';
 import { SpecializationFilters } from '../SpecializationFilters/SpecializationFilters';
 import { StatusFilters } from '../StatusFilters/StatusFilters';
@@ -26,7 +25,9 @@ export const FiltersBar = ({
   };
 
   return (
-    <SideBarWrapper isOpen={isOpenFilterBar}>
+    <div
+      className={`${styles.filtersBar} ${isOpenFilterBar ? styles.open : ''}`}
+    >
       <button
         onClick={() => setIsOpenFilterBar(false)}
         className={styles.closeBtn}
@@ -48,6 +49,6 @@ export const FiltersBar = ({
         <RateFilters filters={filters} updateFilters={updateFilters} />
         <StatusFilters />
       </div>
-    </SideBarWrapper>
+    </div>
   );
 };

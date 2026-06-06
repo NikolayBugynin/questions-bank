@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { fetchQuestionsFromAPI } from '../../api/questions';
 import { FiltersBar } from '../../components/FiltersBar/FiltersBar';
 import { QuestionsList } from '../../components/QuestionsList/QuestionsList';
@@ -6,12 +7,20 @@ import { useDebounce } from '../../helpers/hooks/useDebounce';
 import { useFetch } from '../../helpers/hooks/useFetch';
 import { useFilters } from '../../helpers/hooks/useFilters';
 import type { FiltersState } from '../../interfaces';
-import styles from './styles.module.css';
 
 export const Main = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  //skillId
+  const skillIdParam = searchParams.get('skillId');
+  const skillId = skillIdParam ? Number(skillIdParam) : null;
+
+  //keyWordParam
+  const keyWordParam = searchParams.get('keyWord');
+
   const { filters, updateFilters } = useFilters({
     selectedSpecialization: null,
-    selectedSkill: null,
+    selectedSkill: skillId ? { id: skillId } : null,
     selectedComplexity: [],
     selectedRate: [],
     searchValueByTitle: '',
@@ -21,7 +30,17 @@ export const Main = () => {
 
   const [isOpenFilterBar, setIsOpenFilterBar] = useState(false);
 
-  const skillIds = filters.selectedSkill ? [filters.selectedSkill.id] : [];
+  //  очищаем URL
+  useEffect(() => {
+    const hasParam = skillIdParam || keyWordParam;
+    if (hasParam) {
+      searchParams.delete('skillId');
+      searchParams.delete('keyWord');
+      setSearchParams(searchParams, { replace: true });
+    }
+  }, []);
+
+  const skillsIds = filters.selectedSkill?.id ? [filters.selectedSkill.id] : [];
 
   const debouncedSearchText = useDebounce(filters.searchValueByTitle, 1500);
 
@@ -29,9 +48,10 @@ export const Main = () => {
     page: currentPage,
     titleOrDescription: debouncedSearchText,
     specializationId: filters.selectedSpecialization?.id,
-    skillIds: skillIds,
+    skills: skillsIds,
     complexity: filters.selectedComplexity,
     rate: filters.selectedRate,
+    keywords: keyWordParam ? [keyWordParam] : [],
   });
 
   const handleUpdateFilters = (updates: Partial<FiltersState>) => {
@@ -48,7 +68,7 @@ export const Main = () => {
   const totalPages = Math.ceil((data?.total ?? 0) / (data?.limit ?? 1));
 
   return (
-    <main className={styles.main}>
+    <>
       <QuestionsList
         isLoading={isLoading}
         filteredQuestions={filteredQuestions}
@@ -58,13 +78,12 @@ export const Main = () => {
         onPageChange={handlePageChange}
         currentPage={currentPage}
       />
-
       <FiltersBar
         filters={filters}
         updateFilters={handleUpdateFilters}
         isOpenFilterBar={isOpenFilterBar}
         setIsOpenFilterBar={setIsOpenFilterBar}
       />
-    </main>
+    </>
   );
 };

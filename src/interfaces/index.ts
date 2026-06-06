@@ -1,6 +1,6 @@
 export interface Skill {
   id: number;
-  title: string;
+  title?: string;
 }
 
 export interface SkillsData {
@@ -13,12 +13,22 @@ export interface Specialization {
   slug: string;
 }
 
+interface Author {
+  id: number;
+  username: string;
+}
+
 export interface Question {
   id: number;
   title: string;
   description: string;
   complexity: number;
   rate: number;
+  longAnswer: string;
+  shortAnswer: string;
+  keywords: string[];
+  questionSkills: Skill[];
+  updatedBy: Author;
 }
 
 export interface QuestionData {
@@ -34,6 +44,7 @@ export interface FiltersState {
   selectedComplexity: number[];
   selectedRate: number[];
   searchValueByTitle: string;
+  // selectedKeyWord: string[];
 }
 
 export type Status = 'Изученные' | 'Не изученные' | 'Все';

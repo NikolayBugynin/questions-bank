@@ -1,0 +1,39 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.buttonContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sentencesContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.sideBar {
+  margin-block-start: 35px;
+}
+
+.keyWordsList {
+  display: flex;
+  color: var(--color-primary);
+  gap: 14px;
+}
+
+.author {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 120%;
+  letter-spacing: 0%;
+  text-align: left;
+}
+
+.authorName {
+  color: var(--color-primary);
+}

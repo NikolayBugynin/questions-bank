@@ -1,0 +1,24 @@
+.item {
+  padding: 16px 24px;
+  box-shadow: 0px 4px 10px 0px #6a63761a;
+  display: flex;
+  justify-content: space-between;
+}
+
+.itemHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bullet {
+  width: 8px;
+  height: 8px;
+}
+
+.itemTitle {
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 120%;
+  text-align: left;
+}
