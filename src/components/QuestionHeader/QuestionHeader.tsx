@@ -1,29 +1,19 @@
-import bulletImg from '../../assets/images/bullet.svg';
+import pic from '../../assets/images/question-pic.png';
 import type { Question } from '../../interfaces';
-import { ExpandButton } from '../ExpandButton/ExpandButton';
 import styles from './styles.module.css';
 
 interface Props {
   question: Question;
-  toggleQuestion: (questionId: number) => void;
-  isOpen: boolean;
 }
 
-export const QuestionHeader = ({ question, toggleQuestion, isOpen }: Props) => {
+export const QuestionHeader = ({ question }: Props) => {
   return (
-    <div className={styles.item}>
-      <div className={styles.itemHeader}>
-        <img
-          className={styles.bullet}
-          src={bulletImg}
-          alt='Точка радям с заголовком'
-        />
-        <h3 className={styles.itemTitle}>{question.title}</h3>
+    <div className={styles.questionHeader}>
+      <img className={styles.image} src={pic} alt='IT-картинка' />
+      <div className={styles.textContent}>
+        <h2 className={styles.title}>{question?.title}</h2>
+        <p className={styles.description}>{question?.description}</p>
       </div>
-      <ExpandButton
-        onClick={() => toggleQuestion(question.id)}
-        isOpen={isOpen}
-      />
     </div>
   );
 };

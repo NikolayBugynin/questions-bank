@@ -1,0 +1,15 @@
+.answer {
+  padding: 24px;
+  border-radius: 24px;
+  background: var(--color-white);
+}
+
+.title {
+  text-align: left;
+  margin-block-end: 20px;
+}
+
+.text {
+  text-align: justify;
+  background: var(--color-white);
+}

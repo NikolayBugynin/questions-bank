@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { Question } from '../../interfaces';
 import { QuestionDetails } from '../QuestionDetails/QuestionDetails';
-import { QuestionHeader } from '../QuestionHeader/QuestionHeader';
+import { QuestionTitle } from '../QuestionTitle/QuestionTitle';
 
 interface Props {
   question: Question;
@@ -15,7 +15,7 @@ export const QuestionItem = ({ question }: Props) => {
   };
   return (
     <>
-      <QuestionHeader
+      <QuestionTitle
         question={question}
         toggleQuestion={toggleQuestion}
         isOpen={isOpen}

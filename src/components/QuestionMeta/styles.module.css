@@ -1,0 +1,21 @@
+.meta {
+  display: flex;
+  gap: 16px;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 120%;
+}
+
+.stat {
+  display: flex;
+  gap: 12px;
+  border-radius: 8px;
+  padding: 8px 10px;
+  background-color: var(--color-bg);
+}
+
+.value {
+  padding: 2px 4px;
+  color: var(--color-white);
+  background-color: var(--color-primary);
+}

@@ -3,7 +3,7 @@ import { HeaderLogo } from '../HeaderLogo/HeaderLogo';
 import { HeaderMenu } from '../HeaderMenu/HeaderMenu';
 import styles from './styles.module.css';
 
-export const Header = () => {
+export const  Header = () => {
   return (
     <header className={styles.header}>
       <div className={styles.content}>

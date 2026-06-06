@@ -1,10 +1,10 @@
 import type { Status } from '../interfaces';
 
 export const MENU_ITEMS = [
-  { href: '#', label: 'База вопросов' },
-  { href: '#', label: 'Тренажёр' },
-  { href: '#', label: 'Материалы' },
-  { href: '#', label: ' Навыки (hh)' },
+  { to: '/', label: 'База вопросов' },
+  { to: '/trainer', label: 'Тренажёр' },
+  { to: '/materials', label: 'Материалы' },
+  { to: '/skills', label: 'Навыки (hh)' },
 ] as const;
 
 export const COMPLEXITY_MAP: Record<string, number[]> = {

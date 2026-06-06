@@ -1,0 +1,19 @@
+.navigationButtons {
+  padding: 24px;
+  border-radius: 24px;
+  background: var(--color-white);
+  display: flex;
+  justify-content: center;
+  gap: 43px;
+}
+
+.buttonContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btnImg {
+  width: 7.5px;
+  height: 13.8px;
+}
