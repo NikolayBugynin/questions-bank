@@ -3,7 +3,7 @@ import type { FiltersState } from '../../interfaces';
 import { ComplexityFilters } from '../ComplexityFilters/ComplexityFilters';
 import { RateFilters } from '../RateFilters/RateFilters';
 import { SearchInput } from '../SearchInput/SearchInput';
-import { SideBarWrapper } from '../SideBarWrapper/SideBar';
+import { SideBarWrapper } from '../SideBarWrapper/SideBarWrapper';
 import { SkillFilters } from '../SkillFilters/SkillFilters';
 import { SpecializationFilters } from '../SpecializationFilters/SpecializationFilters';
 import { StatusFilters } from '../StatusFilters/StatusFilters';

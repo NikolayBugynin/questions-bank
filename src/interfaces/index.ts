@@ -1,3 +1,5 @@
+import type { MODE_OPTIONS, STATUS_OPTIONS } from '../constants/constants';
+
 export interface Skill {
   id: number;
   title?: string;
@@ -38,13 +40,26 @@ export interface QuestionData {
   total: number;
 }
 
+export type QuizMode = 'Повторение' | 'Только новые' | 'Случайные';
+
 export interface FiltersState {
   selectedSpecialization: Specialization | null;
-  selectedSkill: Skill | null;
+  selectedSkills: Skill[];
   selectedComplexity: number[];
   selectedRate: number[];
   searchValueByTitle: string;
-  // selectedKeyWord: string[];
+  mode: QuizMode;
 }
 
-export type Status = 'Изученные' | 'Не изученные' | 'Все';
+export type UpdateFilters = (updates: Partial<FiltersState>) => void;
+
+export type PaginatedResponse<T> = {
+  data: T[];
+  page: number;
+  limit: number;
+  total: number;
+};
+
+export type Status = (typeof STATUS_OPTIONS)[number];
+
+export type Mode = (typeof MODE_OPTIONS)[number];

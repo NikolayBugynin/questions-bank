@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { fetchSkillsFromAPI } from '../../api/skills';
+import { toggleSkill } from '../../helpers/filters/toggleFilters';
 import { useFetch } from '../../helpers/hooks/useFetch';
-import type { FiltersState, Skill } from '../../interfaces';
+import type { FiltersState } from '../../interfaces';
 import { FilterButton } from '../FilterButton/FilterButton';
 import { FiltersList } from '../FiltersList/FiltersList';
 import { FiltersSection } from '../FiltersSection/FiltersSection';
@@ -25,12 +26,6 @@ export const SkillFilters = ({ filters, updateFilters }: Props) => {
 
   const skills = skillsResponse?.data ?? [];
 
-  const toggleSkill = (skill: Skill) => {
-    updateFilters({
-      selectedSkill: filters.selectedSkill?.id === skill.id ? null : skill,
-    });
-  };
-
   const visibleSkills = showAllSkills ? skills : skills?.slice(0, 8);
 
   const hasMoreSkills = skills?.length > 8;
@@ -41,8 +36,8 @@ export const SkillFilters = ({ filters, updateFilters }: Props) => {
         {visibleSkills.map((skill) => (
           <FilterButton
             key={skill.id}
-            active={filters.selectedSkill?.id === skill?.id}
-            onClick={() => toggleSkill(skill)}
+            active={filters.selectedSkills.some((s) => s.id === skill.id)}
+            onClick={() => toggleSkill(filters, updateFilters, skill)}
           >
             {skill.title}
           </FilterButton>

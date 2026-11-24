@@ -2,16 +2,16 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { fetchQuestionById } from '../../api/question';
 import { fetchQuestionsFromAPI } from '../../api/questions';
 import backBtn from '../../assets/images/backBtn.svg';
+import { AnswerContainer } from '../../components/AnswerContainer/AnswerContainer';
+import { FilterButton } from '../../components/FilterButton/FilterButton';
+import { FiltersList } from '../../components/FiltersList/FiltersList';
+import { MetaSection } from '../../components/MetaSection/MetaSection';
+import { QuestionHeader } from '../../components/QuestionHeader/QuestionHeader';
+import { QuestionMeta } from '../../components/QuestionMeta/QuestionMeta';
+import { SideBarWrapper } from '../../components/SideBarWrapper/SideBarWrapper';
+import { NavButtons } from '../../components/ui/buttons/NavButtons/NavButtons';
 import { useFetch } from '../../helpers/hooks/useFetch';
 import type { Skill } from '../../interfaces';
-import { AnswerContainer } from '../AnswerContainer/AnswerContainer';
-import { FilterButton } from '../FilterButton/FilterButton';
-import { FiltersList } from '../FiltersList/FiltersList';
-import { MetaSection } from '../MetaSection/MetaSection';
-import { NavButtons } from '../NavButtons/NavButtons';
-import { QuestionHeader } from '../QuestionHeader/QuestionHeader';
-import { QuestionMeta } from '../QuestionMeta/QuestionMeta';
-import { SideBarWrapper } from '../SideBarWrapper/SideBar';
 import styles from './styles.module.css';
 
 export const QuestionDetailPage = () => {
@@ -29,15 +29,10 @@ export const QuestionDetailPage = () => {
 
   const currentIndex = questions.findIndex((q) => q.id === questionId);
 
-  const prevQuestion =
-    currentIndex !== undefined && currentIndex > 0
-      ? questions[currentIndex - 1]
-      : null;
+  const prevQuestion = currentIndex > 0 ? questions[currentIndex - 1] : null;
 
   const nextQuestion =
-    currentIndex !== undefined && currentIndex < (questions.length || 0) - 1
-      ? questions[currentIndex + 1]
-      : null;
+    currentIndex < questions.length - 1 ? questions[currentIndex + 1] : null;
 
   const toggleSkill = (skill: Skill) => {
     // Переход на главную страницу с параметром skillId
@@ -79,7 +74,13 @@ export const QuestionDetailPage = () => {
         </div>
         {question && <QuestionHeader question={question} />}
 
-        <NavButtons onPrev={goToPrevQuestion} onNext={goToNextQuestion} />
+        <NavButtons
+          onPrev={goToPrevQuestion}
+          onNext={goToNextQuestion}
+          disableNext={!nextQuestion}
+          disablePrev={!prevQuestion}
+          className={styles.navSpread}
+        />
         <AnswerContainer title='Краткий ответ'>
           {question?.shortAnswer}
         </AnswerContainer>
@@ -127,7 +128,6 @@ export const QuestionDetailPage = () => {
             <p className={styles.author}>
               Автор:
               <span className={styles.authorName}>
-                {' '}
                 {question?.updatedBy.username}
               </span>
             </p>

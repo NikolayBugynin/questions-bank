@@ -2,7 +2,7 @@ import styles from './styles.module.css';
 
 interface Props {
   title: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 export const FiltersSection = ({ title, children }: Props) => {

@@ -1,0 +1,14 @@
+.menuBtn {
+  border-radius: 12px;
+  padding: 6px 10px;
+  font-family: inherit;
+  font-weight: inherit;
+  font-size: inherit;
+  transition: background-color 0.2s ease;
+}
+
+@media (max-width: 1200px) {
+  .menuBtn {
+    display: block;
+  }
+}

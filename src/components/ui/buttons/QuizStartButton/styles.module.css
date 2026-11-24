@@ -1,0 +1,12 @@
+.linkBtn {
+  margin-block-start: 24px;
+  border: none;
+  border-radius: 15px;
+  padding: 15px 41px;
+  color: var(--color-white);
+  font-weight: 500;
+  background-color: var(--color-primary);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}

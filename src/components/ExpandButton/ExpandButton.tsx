@@ -8,7 +8,7 @@ interface Props {
 
 export const ExpandButton = ({ onClick, isOpen }: Props) => {
   return (
-    <button onClick={onClick} className={styles.expandBtn}>
+    <button type='button' onClick={onClick} className={styles.expandBtn}>
       <span className={`${styles.arrow} ${isOpen ? styles.arrowOpen : ''}`}>
         <img src={expBtn} alt='expBtn' />
       </span>
