@@ -20,7 +20,7 @@ export const Main = () => {
 
   const { filters, updateFilters } = useFilters({
     selectedSpecialization: null,
-    selectedSkill: skillId ? { id: skillId } : null,
+    selectedSkills: [],
     selectedComplexity: [],
     selectedRate: [],
     searchValueByTitle: '',
@@ -32,15 +32,20 @@ export const Main = () => {
 
   //  очищаем URL
   useEffect(() => {
-    const hasParam = skillIdParam || keyWordParam;
-    if (hasParam) {
-      searchParams.delete('skillId');
-      searchParams.delete('keyWord');
-      setSearchParams(searchParams, { replace: true });
-    }
-  }, []);
+    if (!skillIdParam && !keyWordParam) return;
 
-  const skillsIds = filters.selectedSkill?.id ? [filters.selectedSkill.id] : [];
+    const next = new URLSearchParams(searchParams);
+    next.delete('skillId');
+    next.delete('keyWord');
+    setSearchParams(next, { replace: true });
+  }, [skillIdParam, keyWordParam, searchParams, setSearchParams]);
+
+  const skillsIds = [
+    ...filters.selectedSkills.map((s) => s.id),
+    ...(skillId ? [skillId] : []),
+  ];
+
+  console.log(skillsIds, '---skillsIds');
 
   const debouncedSearchText = useDebounce(filters.searchValueByTitle, 1500);
 

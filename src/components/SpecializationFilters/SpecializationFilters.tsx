@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { fetchSpecializationsFromAPI } from '../../api/specializations';
+import { toggleSpecialization } from '../../helpers/filters/toggleFilters';
 import { useFetch } from '../../helpers/hooks/useFetch';
-import type { FiltersState, Specialization } from '../../interfaces';
+import type { FiltersState } from '../../interfaces';
 import { FilterButton } from '../FilterButton/FilterButton';
 import { FiltersList } from '../FiltersList/FiltersList';
 import { FiltersSection } from '../FiltersSection/FiltersSection';
@@ -19,15 +20,6 @@ export const SpecializationFilters = ({ filters, updateFilters }: Props) => {
 
   const specializations = specializationsData ?? [];
 
-  const toggleSpecialization = (specialization: Specialization) => {
-    updateFilters({
-      selectedSpecialization:
-        filters.selectedSpecialization?.id === specialization.id
-          ? null
-          : specialization,
-    });
-  };
-
   const visibleSpecializations = showAllSpecializations
     ? specializations
     : specializations.slice(0, 5);
@@ -40,7 +32,9 @@ export const SpecializationFilters = ({ filters, updateFilters }: Props) => {
           <FilterButton
             key={specialization.id}
             active={filters.selectedSpecialization?.id === specialization?.id}
-            onClick={() => toggleSpecialization(specialization)}
+            onClick={() =>
+              toggleSpecialization(filters, updateFilters, specialization)
+            }
           >
             {specialization.title}
           </FilterButton>

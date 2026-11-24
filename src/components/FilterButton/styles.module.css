@@ -1,5 +1,8 @@
 .item {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start;
   border: 1px solid #bababa;
   border-radius: 12px;
   padding: 12px;
@@ -16,13 +19,4 @@
   background-color: var(--color-primary, #007bff);
   color: white;
   border-color: var(--color-primary, #007bff);
-}
-
-.toggle {
-  color: #5509cc;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 100%;
-  text-align: left;
-  text-decoration: underline;
 }

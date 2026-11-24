@@ -8,3 +8,9 @@
   width: 100%;
   height: 19px;
 }
+
+@media (max-width: 375px) {
+  .logoText {
+    display: none;
+  }
+}

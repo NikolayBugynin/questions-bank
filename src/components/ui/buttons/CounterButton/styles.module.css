@@ -1,0 +1,29 @@
+.counter {
+  padding: 10px 12px;
+  display: inline-flex;
+  width: fit-content;
+  gap: 16px;
+  border-radius: 12px;
+  border: 1px solid #bababa;
+}
+
+.toggleBtn {
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+.toggleBtn:hover {
+  color: var(--color-primary);
+}
+
+.countValue {
+  min-width: 2ch;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}

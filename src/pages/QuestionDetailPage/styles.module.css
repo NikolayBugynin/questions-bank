@@ -10,6 +10,12 @@
   gap: 10px;
 }
 
+.navSpread {
+  padding: 24px;
+  justify-content: center;
+  gap: 43px;
+}
+
 .sentencesContainer {
   display: flex;
   flex-direction: column;
